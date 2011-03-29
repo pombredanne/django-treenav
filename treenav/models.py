@@ -9,6 +9,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.cache import cache
 from django.core.urlresolvers import reverse
 from django.db.models.query import QuerySet
+from django.db.models.signals import m2m_changed
 
 import mptt
 from mptt.utils import previous_current_next
@@ -185,6 +186,8 @@ class MenuItem(models.Model):
             self.href = ''
         delete_cache()
         super(MenuItem, self).save(*args, **kwargs)
+        self.__class__.tree.rebuild()
+        
 
     def delete(self, *args, **kwargs):
         delete_cache()
@@ -194,6 +197,15 @@ class MenuItem(models.Model):
         return self.slug
 
 mptt.register(MenuItem, order_insertion_by=['order'])
+
+"""
+The below callback on the m2m signal is to fix the mptt ordering bug, remove if
+this gets fixed.
+"""
+def rebuild_tree_for_ordering(sender, **kwargs):
+    sender.tree.rebuild()
+
+m2m_changed.connect(rebuild_tree_for_ordering, sender=MenuItem)
 
 
 def treenav_save_other_object_handler(sender, instance, created, **kwargs):
