@@ -91,19 +91,7 @@ class MenuItemManager(models.Manager):
 
     
 class MenuItem(models.Model):
-    ORDER_CHOICES = (
-        (0, 0),
-        (1, 1),
-        (2, 2),
-        (3, 3),
-        (4, 4),
-        (5, 5),
-        (6, 6),
-        (7, 7),
-        (8, 8),
-        (9, 9),
-    )
-    
+
     parent = models.ForeignKey(
         'MenuItem',
         related_name='children',
@@ -115,7 +103,7 @@ class MenuItem(models.Model):
         max_length=255,
         help_text="The display name on the web site.",
     )
-    slug = models.CharField(
+    slug = models.SlugField(
         _('slug'),
         unique=True,
         max_length=255,
@@ -123,7 +111,7 @@ class MenuItem(models.Model):
     )
     order = models.IntegerField(
         _('order'),
-        choices=ORDER_CHOICES,
+        choices=[(x, x) for x in xrange(0, 51)],
     )
     is_enabled = models.BooleanField(default=True)
     link = models.CharField(
