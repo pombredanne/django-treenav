@@ -29,8 +29,8 @@ Features
 
 Requirements
 ------------
-- `django <https://github.com/django/django/>`_
-- `django-mptt <http://github.com/django-mptt/django-mptt/>`_
+- `django <https://github.com/django/django/>`_ >= 1.3
+- `django-mptt <http://github.com/django-mptt/django-mptt/>`_ >= 0.5.2
 
 Using the demo
 --------------
@@ -76,30 +76,9 @@ Installation
 #. Add these urls::
 
     urlpatterns = patterns('',
-        (r'^treenav/', include('treenav.urls.admin')),
-        (r'^treenav-missing/', include('treenav.urls.undefined_url')),
+        (r'^treenav/', include('treenav.urls')),
     )
 
-History
--------
-
-0.6.1 (04-12-2012)
-******************
-* Fixed bug that prevented adding parent and child menu items simultaneously
-
-0.6.0 (12-02-2011)
-******************
-* Moved to GitHub
-* Add Sphinx-powered documentation
-* Update to Django 1.3.x and django-mptt 0.5.2
-* Provide more order choices by default
-* Fix a few documentation related bugs
-* Cleaned up sample project for an easier demo
-
-0.5.0 (03-11-2011)
-******************
-
-* Initial release
 
 Development sponsored by `Caktus Consulting Group, LLC
 <http://www.caktusgroup.com/services>`_.
